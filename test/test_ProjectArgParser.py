@@ -31,7 +31,8 @@ class TestParserForCommands(unittest.TestCase):
         self.assertEquals(obtained_commands, result_should_be)
 
         test_args = '-gc module1 module2 @-U @-X'.split()
-        result_should_be = [CommandParser.Command(action='get-new-code', target_module=module_name, arguments=['-U', '-X'])
+        result_should_be = [CommandParser.Command(action='get-new-code',
+                            target_module=module_name, arguments=['-U', '-X'])
                             for module_name in ['module1', 'module2']]
         obtained_commands = self.parser.get_commands(test_args)
         self.assertEquals(obtained_commands, result_should_be)
