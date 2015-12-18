@@ -1,15 +1,20 @@
-import CommandParser
-
+import Config
+import re
 
 def resolve_final_bash_command(command):
-    """
-        TODO test it !!!!!!!!!!!!!!!!!!!!!!!!!!!
-    :param command:
-    :return:
-    """
-    cmds = {
-        'clean-install': 'echo \'Invoking mvn clean install\'',
-        'get-new-code': 'echo \'Invoking git reset\'',
-    }
+    try:
+        cmd = Config.actions[command.action][1]
+        args_to_set_number = len(re.findall('{\d+}', cmd))
+        if args_to_set_number > 0:
+            #TODO: optimize
+            if len(command.arguments) == 0:
+                #use defualts
+                cmd = cmd.format(*Config.actions[command.action][-1])
+            else:
+                cmd = cmd.format(*command.arguments)
+            return cmd.rstrip()
 
-    return cmds[command.action] + " " + " ".join(command.arguments) + " " + " ".join(command.target_modules)
+        return (cmd + " " + " ".join(command.arguments)).rstrip()
+    except:
+        msg = "Action [%s] has no definition" % command.action
+        raise Exception(msg)

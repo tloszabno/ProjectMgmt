@@ -1,24 +1,6 @@
 import argparse
-import logging
-
-logging.basicConfig()
-log = logging.getLogger("CommandParser")
-
-available_commands = ['clean-build', 'get-new-code']
-
-commands_with_shorts = {
-    'clean-build': 'cb',
-    'get-new-code': 'gc'
-}
-
-commands_with_no_confirmation = {
-    # IMPLEMENT ME
-}
-
-projectmgmt_commands = {
-    # IMPLEMENT ME
-}
-
+import Config
+import argcomplete
 
 class Command(object):
     acceptable_keys_list = ['target_module', 'action', 'arguments']
@@ -49,11 +31,12 @@ class CustomAction(argparse.Action):
 class CommandParser(object):
     def __init__(self):
         self.arg_parser = argparse.ArgumentParser()
+        argcomplete.autocomplete(self.arg_parser)
         self.__configure_parser__()
 
     def __configure_parser__(self):
-        for command_key in available_commands:
-            self.arg_parser.add_argument('-' + commands_with_shorts[command_key], '--' + command_key,
+        for command_key in Config.actions.keys():
+            self.arg_parser.add_argument('-' + Config.actions[command_key][0], '--' + command_key,
                                          nargs='*', dest=command_key, action=CustomAction)
 
     def get_commands(self, args):
