@@ -27,22 +27,22 @@ class TestProjectsDAO(unittest.TestCase):
 
     def create_projects_obj(self):
         return {
-            'project1': '/home/test/project1',
-            'project2': '/home/test/project2',
-            'project3': '/home/test/project3'
+            'project1': {'path': '/home/tests/project1', 'type': "mvn_project"},
+            'project2': {'path': '/home/tests/project2', 'type': "mvn_project"},
+            'project3': {'path': '/home/tests/project3', 'type': "mvn_project"}
         }
 
     def test_saveJson(self):
         ProjectsDAO.save_projects(self.create_projects_obj(), db_path=test_db)
         with open(test_db, "r") as db:
             obj = json.load(db)
-            self.assertEquals(obj["project1"], '/home/test/project1')
-            self.assertEquals(obj["project2"], '/home/test/project2')
-            self.assertEquals(obj["project3"], '/home/test/project3')
+            self.assertEquals(obj["project1"],  {'path': '/home/tests/project1', 'type': "mvn_project"})
+            self.assertEquals(obj["project2"],  {'path': '/home/tests/project2', 'type': "mvn_project"})
+            self.assertEquals(obj["project3"],  {'path': '/home/tests/project3', 'type': "mvn_project"})
 
     def test_load(self):
         ProjectsDAO.save_projects(self.create_projects_obj(), db_path=test_db)
         read = ProjectsDAO.get_projects(db_path=test_db)
-        self.assertEquals(read["project1"], '/home/test/project1')
-        self.assertEquals(read["project2"], '/home/test/project2')
-        self.assertEquals(read["project3"], '/home/test/project3')
+        self.assertEquals(read["project1"],  {'path': '/home/tests/project1', 'type': "mvn_project"})
+        self.assertEquals(read["project2"],  {'path': '/home/tests/project2', 'type': "mvn_project"})
+        self.assertEquals(read["project3"],  {'path': '/home/tests/project3', 'type': "mvn_project"})

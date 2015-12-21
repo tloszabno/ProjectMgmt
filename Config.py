@@ -3,6 +3,11 @@ logs_file_append_pid = True
 
 projects_db_path = '/home/tomek/tmp/project_db.json'
 
+
+#autoscan
+server_runnable_files = ['app_server.sh', 'standalone.sh']
+folders_to_skip = []
+
 # optimize actions to one dic
 
 actions = {
