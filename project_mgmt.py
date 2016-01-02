@@ -3,7 +3,7 @@
 import sys
 import os
 
-import CommandParser
+import ActionsParser
 import CommandExecutor
 import Config
 
@@ -12,7 +12,7 @@ def main():
     log_file_path = Config.logs_file_name_prefix + (str(os.getpid()) if Config.logs_file_append_pid else "")
     print "Starting, logs are in file [%s]\n\n" % log_file_path
     try:
-        command_parser = CommandParser.CommandParser()
+        command_parser = ActionsParser.ActionsParser()
         commands = command_parser.get_commands(sys.argv[1:])
         CommandExecutor.process_commands(commands, log_file_path)
     except Exception as e:
