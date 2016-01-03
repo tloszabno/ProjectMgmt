@@ -8,7 +8,6 @@ projects_db_path = '/home/tomek/tmp/project_db.json'
 server_runnable_files = ['app_server.sh', 'standalone.sh']
 folders_to_skip = []
 
-# optimize actions to one dic
 
 actions = {
     'clean-build': ('cb', 'mvn clean install'),
@@ -18,6 +17,10 @@ actions = {
     'get-new-code': ('gc', 'git reset --hard && git checkout {0} && git fetch && git reset --hard origin/{0}',
                      ['master'])
 }
+
+build_in_actions = [
+
+]
 
 
 # TODO add autoscan

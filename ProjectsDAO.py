@@ -11,3 +11,17 @@ def save_projects(projects_json, db_path=Config.projects_db_path):
     json_str = json.dumps(projects_json)
     with open(db_path, "w") as db:
         db.write(json_str)
+
+
+def add_project(project_key, project_path, project_type, db_path=Config.projects_db_path):
+    projects = get_projects(db_path)
+    projects[project_key] = {'type': project_type, 'path': project_path}
+    save_projects(projects, db_path=db_path)
+
+
+def add_server(project_key, project_path, db_path=Config.projects_db_path):
+    add_project(project_key, project_path, 'server', db_path=db_path)
+
+
+def add_mvn_project(project_key, project_path, db_path=Config.projects_db_path):
+    add_project(project_key, project_path, 'mvn_project', db_path=db_path)
