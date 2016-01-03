@@ -57,3 +57,4 @@ class ActionsParser(object):
             for module in action_modules:
                 actions.append(Action(target_module=module, action=action_key, arguments=arguments))
         return actions
+

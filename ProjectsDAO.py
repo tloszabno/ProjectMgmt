@@ -25,3 +25,10 @@ def add_server(project_key, project_path, db_path=Config.projects_db_path):
 
 def add_mvn_project(project_key, project_path, db_path=Config.projects_db_path):
     add_project(project_key, project_path, 'mvn_project', db_path=db_path)
+
+
+def print_available_projects(db_path=Config.projects_db_path):
+    projects = get_projects(db_path)
+    print "[project_key](type)\t\t[path_to_project]"
+    for p_key in sorted(projects.keys()):
+        print "[%s](%s)\t\t[%s]" % (p_key, projects[p_key]['type'], projects[p_key]['path'])

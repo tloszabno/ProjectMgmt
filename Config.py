@@ -4,10 +4,9 @@ logs_file_append_pid = True
 projects_db_path = '/home/tomek/tmp/project_db.json'
 
 
-#autoscan
+# autoscan
 server_runnable_files = ['app_server.sh', 'standalone.sh']
 folders_to_skip = []
-
 
 actions = {
     'clean-build': ('cb', 'mvn clean install'),
@@ -18,8 +17,13 @@ actions = {
                      ['master'])
 }
 
+#FYI -not used
 build_in_actions = [
-
+    ('add-mvn-project', 'amp'),
+    ('add-server', 'asrv'),
+    ('remove-project', 'rmp'),
+    ('autoscan', 'asc'),
+    ('show-projects','sprj')
 ]
 
 
@@ -53,7 +57,6 @@ projects_paths = {
 
     'pax': '/home/tomek/workspace/CORE/pax',
     'bootstrap': '/home/tomek/workspace/BOOTSTRAPS/bootstrap',
-
 
     'smart-um': '/home/tomek/workspace/UM/smart-um',
 
