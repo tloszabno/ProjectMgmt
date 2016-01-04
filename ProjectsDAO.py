@@ -1,5 +1,6 @@
 import json
 import Config
+import ProjectAutoDetector
 
 
 def get_projects(db_path=Config.projects_db_path):
@@ -32,3 +33,8 @@ def print_available_projects(db_path=Config.projects_db_path):
     print "[project_key](type)\t\t[path_to_project]"
     for p_key in sorted(projects.keys()):
         print "[%s](%s)\t\t[%s]" % (p_key, projects[p_key]['type'], projects[p_key]['path'])
+
+
+def autodetect_and_save_projects(folder_to_scan, db_path=Config.projects_db_path):
+    detected = ProjectAutoDetector.scan_folder(folder_to_scan)
+    save_projects(detected, db_path=db_path)

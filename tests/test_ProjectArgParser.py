@@ -20,21 +20,24 @@ class TestParserForCommands(unittest.TestCase):
         test_args = '-gc module1 module2'.split()
         result_should_be = [ActionsParser.Action(action='get-new-code', target_module=module_name, arguments=[])
                             for module_name in ['module1', 'module2']]
-        obtained_commands = self.parser.get_commands(test_args)
+        self.parser.parse(test_args)
+        obtained_commands = self.parser.get_actions()
         self.assertEquals(obtained_commands, result_should_be)
 
     def test_one_command_few_projects_and_attribute(self):
         test_args = '-gc module1 module2 @-U'.split()
         result_should_be = [ActionsParser.Action(action='get-new-code', target_module=module_name, arguments=['-U'])
                             for module_name in ['module1', 'module2']]
-        obtained_commands = self.parser.get_commands(test_args)
+        self.parser.parse(test_args)
+        obtained_commands = self.parser.get_actions()
         self.assertEquals(obtained_commands, result_should_be)
 
         test_args = '-gc module1 module2 @-U @-X'.split()
         result_should_be = [ActionsParser.Action(action='get-new-code',
                             target_module=module_name, arguments=['-U', '-X'])
                             for module_name in ['module1', 'module2']]
-        obtained_commands = self.parser.get_commands(test_args)
+        self.parser.parse(test_args)
+        obtained_commands = self.parser.get_actions()
         self.assertEquals(obtained_commands, result_should_be)
 
     def test_two_command_few_projects_once_declared(self):
@@ -44,18 +47,21 @@ class TestParserForCommands(unittest.TestCase):
                            [ActionsParser.Action(action='clean-build', target_module=module_name, arguments=[])
                             for module_name in ['module1', 'module2']]
 
-        obtained_commands = self.parser.get_commands(test_args)
+        self.parser.parse(test_args)
+        obtained_commands = self.parser.get_actions()
         self.assertEquals(obtained_commands, result_should_be)
 
     def test_two_command_none_project_declared(self):
         test_args = '-gc -cb'.split()
         with self.assertRaises(Exception):
-            self.parser.get_commands(test_args)
+            self.parser.parse(test_args)
+            self.parser.get_actions()
 
     def test_two_command_project_declared_too_late(self):
         test_args = '-gc -cb mod1 mod2'.split()
         with self.assertRaises(Exception):
-            self.parser.get_commands(test_args)
+            self.parser.parse(test_args)
+            self.parser.get_actions()
 
 
 if __name__ == '__main__':

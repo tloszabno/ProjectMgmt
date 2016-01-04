@@ -6,7 +6,7 @@ projects_db_path = '/home/tomek/tmp/project_db.json'
 
 # autoscan
 server_runnable_files = ['app_server.sh', 'standalone.sh']
-folders_to_skip = []
+folders_to_skip = ['target', 'tests', 'standalone', 'glassfish', 'ACA']
 
 actions = {
     'clean-build': ('cb', 'mvn clean install'),

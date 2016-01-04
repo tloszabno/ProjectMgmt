@@ -16,12 +16,16 @@ def scan_folder(folder_to_scan):
         server_key = __resolve_server_key__(server, result)
         result[server_key] = {'path': server, 'type': 'server'}
 
+    result
+
 
 def scan_for_mvn_projects(folder_to_scan, folders_to_skip=[]):
     possible_locations = []
 
     for dir_path, sub_folders, file_list in os.walk(folder_to_scan):
-        if len(filter(lambda not_allowed_dir: dir_path.endswith(not_allowed_dir), folders_to_skip)) > 0:
+        if len(filter(lambda not_allowed_dir: dir_path.endswith(not_allowed_dir), folders_to_skip)) > 0 \
+                or len(filter(lambda not_allowed_dir: dir_path.startswith(not_allowed_dir), folders_to_skip)) > 0:
+            folders_to_skip += [dir_path]
             continue
         if 'pom.xml' in file_list:
             project_path = os.path.abspath(dir_path)
@@ -57,9 +61,9 @@ def __resolve_project_key__(mvn_project_path, current_state):
         del current_state[potential_name]
 
         print "During the scan found project with same key as project added. So please provide keys for both project:"
-        conflicted_project_key = raw_input("Provide name for project in path %s" % conflicted_path)
+        conflicted_project_key = raw_input("Provide name for project in path %s >" % conflicted_path)
         current_state[conflicted_project_key] = conflicted_path
-        potential_name = raw_input("Provide name for project in path %s" % mvn_project_path)
+        potential_name = raw_input("Provide name for project in path %s >" % mvn_project_path)
 
     return potential_name
 
@@ -72,8 +76,8 @@ def __resolve_server_key__(server_path, current_state):
         del current_state[potential_name]
 
         print "During the scan found server with same key as project added. So please provide keys for both servers:"
-        conflicted_server_key = raw_input("Provide name for server in path %s" % conflicted_path)
+        conflicted_server_key = raw_input("Provide name for server in path %s >" % conflicted_path)
         current_state[conflicted_server_key] = conflicted_path
-        potential_name = raw_input("Provide name for server in path %s" % server_path)
+        potential_name = raw_input("Provide name for server in path %s >" % server_path)
 
     return potential_name
