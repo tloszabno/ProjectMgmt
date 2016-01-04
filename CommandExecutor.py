@@ -1,6 +1,7 @@
 import subprocess
 import ProjectsResolver
 import CommandsResolver
+import os
 
 
 def process_commands(commands, logs_file_path):
@@ -8,15 +9,21 @@ def process_commands(commands, logs_file_path):
         commands)
 
 
+def __resolve_working_dir__(path):
+    return path if os.path.isdir(path) else os.path.dirname(path)
+
+
 def process_command(command, logs_file_path):
     action_cmd = CommandsResolver.resolve_final_bash_command(command)
     module_path = ProjectsResolver.get_project_path(command.target_module)
 
-    process = subprocess.Popen([action_cmd], cwd=module_path, stdout=subprocess.PIPE,
+    cwd = __resolve_working_dir__(module_path)
+
+    process = subprocess.Popen([action_cmd], cwd=cwd, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, shell=True)
 
     log_msg = "Started command [%s] on module [%s] (%s) - pid: %d\n" % (action_cmd,
-                                                                      command.target_module, module_path, process.pid)
+                                                                        command.target_module, module_path, process.pid)
     print log_msg
     out2 = ""
     with open(logs_file_path, 'a') as f:

@@ -3,9 +3,9 @@ import Config
 
 
 def scan_folder(folder_to_scan):
-    servers = scan_for_servers_runnable_files(folder_to_scan, server_runnable_files=Config.server_runnable_files,
-                                              folders_to_skip=Config.folders_to_skip)
-    mvn_projects = scan_for_mvn_projects(folder_to_scan, Config.folders_to_skip)
+    servers = scan_for_servers_runnable_files(folder_to_scan, server_runnable_files=Config.autoscan_server_runnable_files,
+                                              folders_to_skip=Config.autoscan_folders_to_skip)
+    mvn_projects = scan_for_mvn_projects(folder_to_scan, Config.autoscan_folders_to_skip)
 
     result = {}
     for mvn_project in mvn_projects:
@@ -16,7 +16,7 @@ def scan_folder(folder_to_scan):
         server_key = __resolve_server_key__(server, result)
         result[server_key] = {'path': server, 'type': 'server'}
 
-    result
+    return result
 
 
 def scan_for_mvn_projects(folder_to_scan, folders_to_skip=[]):
@@ -41,7 +41,7 @@ def __is_project_multi_module__(project_path):
         return "<modules>" in pom.read()
 
 
-def scan_for_servers_runnable_files(folder_to_scan, server_runnable_files=Config.server_runnable_files,
+def scan_for_servers_runnable_files(folder_to_scan, server_runnable_files=Config.autoscan_server_runnable_files,
                                     folders_to_skip=[]):
     found = []
     for dir_path, sub_folders, file_list in os.walk(folder_to_scan):

@@ -28,11 +28,20 @@ def add_mvn_project(project_key, project_path, db_path=Config.projects_db_path):
     add_project(project_key, project_path, 'mvn_project', db_path=db_path)
 
 
+def remove_project(project_key, db_path=Config.projects_db_path):
+    projects = get_projects(db_path)
+    if project_key not in projects:
+        msg = 'Project %s not found in db' % project_key
+        raise Exception(msg)
+    del projects[project_key]
+    save_projects(projects, db_path=db_path)
+
+
 def print_available_projects(db_path=Config.projects_db_path):
     projects = get_projects(db_path)
     print "[project_key](type)\t\t[path_to_project]"
     for p_key in sorted(projects.keys()):
-        print "[%s](%s)\t\t[%s]" % (p_key, projects[p_key]['type'], projects[p_key]['path'])
+        print "%25s [%s]" % ("[" + p_key + "](" + projects[p_key]['type'] + ")", projects[p_key]['path'])
 
 
 def autodetect_and_save_projects(folder_to_scan, db_path=Config.projects_db_path):
