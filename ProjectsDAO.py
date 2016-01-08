@@ -20,8 +20,8 @@ def add_project(project_key, project_path, project_type, db_path=Config.projects
     save_projects(projects, db_path=db_path)
 
 
-def add_server(project_key, project_path, db_path=Config.projects_db_path):
-    add_project(project_key, project_path, 'server', db_path=db_path)
+def add_script(project_key, project_path, db_path=Config.projects_db_path):
+    add_project(project_key, project_path, 'script', db_path=db_path)
 
 
 def add_mvn_project(project_key, project_path, db_path=Config.projects_db_path):

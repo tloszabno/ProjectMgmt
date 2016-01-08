@@ -4,6 +4,7 @@ import re
 def resolve_final_bash_command(command):
     try:
         cmd = Config.actions[command.action][1]
+
         args_to_set_number = len(re.findall('{\d+}', cmd))
         if args_to_set_number > 0:
             #TODO: optimize

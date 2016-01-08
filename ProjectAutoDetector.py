@@ -14,7 +14,7 @@ def scan_folder(folder_to_scan):
 
     for server in servers:
         server_key = __resolve_server_key__(server, result)
-        result[server_key] = {'path': server, 'type': 'server'}
+        result[server_key] = {'path': server, 'type': 'script'}
 
     return result
 

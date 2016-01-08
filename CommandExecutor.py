@@ -14,8 +14,11 @@ def __resolve_working_dir__(path):
 
 
 def process_command(command, logs_file_path):
+    module_path, module_type = ProjectsResolver.get_project_path_and_type(command.target_module)
+    if module_type == 'script':
+        command.arguments = [module_path]
+
     action_cmd = CommandsResolver.resolve_final_bash_command(command)
-    module_path = ProjectsResolver.get_project_path(command.target_module)
 
     cwd = __resolve_working_dir__(module_path)
 

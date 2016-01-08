@@ -6,7 +6,7 @@ import os
 def append_buildins_commands(arg_parser):
     arg_parser.add_argument('-asc', '--autoscan', nargs='*', dest='autoscan', action=CustomAction)
     arg_parser.add_argument('-amp', '--add-mvn-project', nargs='*', dest='add-mvn-project', action=CustomAction)
-    arg_parser.add_argument('-asrv', '--add-server', nargs='*', dest='add-server', action=CustomAction)
+    arg_parser.add_argument('-asp', '--add-script', nargs='*', dest='add-script', action=CustomAction)
     arg_parser.add_argument('-rmp', '--remove-project', nargs='*', dest='remove-project', action=CustomAction)
     arg_parser.add_argument('-show', '--show-projects', nargs='?', dest='show-projects', action=CustomAction)
 
@@ -16,10 +16,9 @@ def __get_entry_for_argument__(parsed_args, arg_name):
 
 
 def __check_args_available__(entry, args_names):
-    if len(entry) < 2 and len(entry[1]) < len(args_names):
+    if len(entry) < 2 or len(entry[1]) < len(args_names):
         msg = '%s needs arguments: %s' % (entry[0], str(args_names))
         raise Exception(msg)
-
     for i in xrange(len(args_names)):
         if len(entry[1][i]) < 1:
             msg = '%s needs arguments: %s' % (entry[0], str(args_names))
@@ -27,7 +26,6 @@ def __check_args_available__(entry, args_names):
 
 
 def __get_full_path__(path):
-    print "abs path for [%s] is [%s]" % (path, os.path.abspath(path))
     return os.path.abspath(path)
 
 
@@ -46,7 +44,7 @@ def run(parsed_args):
     if 'autoscan' in provided_special_cmds:
         entry = __get_entry_for_argument__(parsed_args,'autoscan')
         __check_args_available__(entry, ['path'])
-        ProjectsDAO.autodetect_and_save_projects(entry[1][0])
+        ProjectsDAO.autodetect_and_save_projects(__get_full_path__(entry[1][0]))
         return True
 
     if 'add-mvn-project' in provided_special_cmds:
@@ -55,10 +53,10 @@ def run(parsed_args):
         ProjectsDAO.add_mvn_project(project_key=entry[1][0], project_path=__get_full_path__(entry[1][1]))
         return True
 
-    if 'add-server' in provided_special_cmds:
-        entry = __get_entry_for_argument__(parsed_args, 'add-server')
+    if 'add-script' in provided_special_cmds:
+        entry = __get_entry_for_argument__(parsed_args, 'add-script')
         __check_args_available__(entry, ['project_key', 'path_to_exec'])
-        ProjectsDAO.add_server(project_key=entry[1][0], project_path=__get_full_path__(entry[1][1]))
+        ProjectsDAO.add_script(project_key=entry[1][0], project_path=__get_full_path__(entry[1][1]))
         return True
 
     if 'remove-project' in provided_special_cmds:
