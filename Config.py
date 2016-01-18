@@ -1,7 +1,11 @@
-logs_file_name_prefix = "/home/tomek/tmp/logs_"
+def get_datetime_prefix():
+	import datetime
+	return datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S')
+
+logs_file_name_prefix = "/home/tomek/logs/logs_" + get_datetime_prefix() + "_"
 logs_file_append_pid = True
 
-projects_db_path = '/home/tomek/tmp/project_db.json'
+projects_db_path = '/home/tomek/workspace/project_db.json'
 
 # autoscan
 autoscan_server_runnable_files = ['app_server.sh', 'standalone.sh']
@@ -16,3 +20,5 @@ actions = {
                      ['master']),
     'run': ('r', '{0}', [])
 }
+
+continue_on_fail = False

@@ -2,7 +2,7 @@ import subprocess
 import ProjectsResolver
 import CommandsResolver
 import os
-
+import Config
 
 def process_commands(commands, logs_file_path):
     map(lambda cmd: process_command(cmd, logs_file_path),
@@ -25,12 +25,12 @@ def process_command(command, logs_file_path):
     process = subprocess.Popen([action_cmd], cwd=cwd, stdout=subprocess.PIPE,
                                stderr=subprocess.STDOUT, shell=True)
 
-    log_msg = "Started command [%s] on module [%s] (%s) - pid: %d\n" % (action_cmd,
+    log_msg = "\n\n### Started command [%s] on module [%s] (%s) - pid: %d ###\n" % (action_cmd,
                                                                         command.target_module, module_path, process.pid)
     print log_msg
     out2 = ""
     with open(logs_file_path, 'a') as f:
-        f.write(log_msg + "\n\n")
+        f.write(log_msg)
         while True:
             line = process.stdout.readline()
             if line == '':
@@ -42,7 +42,9 @@ def process_command(command, logs_file_path):
     process.wait()
     if process.returncode != 0:
         print "\t[FAIL]"
-        print out2
-        exit(1)
 
-    print "\t[OK]"
+        if not Config.continue_on_fail:
+            print out2
+            exit(1)
+    else:
+        print "\t[OK]"

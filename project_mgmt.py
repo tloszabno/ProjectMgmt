@@ -6,6 +6,7 @@ import ActionsParser
 import CommandExecutor
 import Config
 import traceback
+import Validation
 
 def main():
     log_file_path = Config.logs_file_name_prefix + (str(os.getpid()) if Config.logs_file_append_pid else "")
@@ -18,6 +19,7 @@ def main():
             return
 
         commands = action_parser.get_actions()
+        Validation.validate_modules_exists(commands)
         CommandExecutor.process_commands(commands, log_file_path)
 
     except Exception as e:

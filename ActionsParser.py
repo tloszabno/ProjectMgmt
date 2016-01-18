@@ -4,6 +4,7 @@ import argcomplete
 import BuildInFunctionRunner
 from common import Action
 from common import CustomAction
+import ProjectsDAO
 
 
 class ActionsParser(object):
@@ -37,7 +38,7 @@ class ActionsParser(object):
                 action_modules = last_used_mods
             else:
                 if "all" in action_modules:
-                    action_modules = list(Config.projects_paths.keys())
+                    action_modules = [x[0] for x in ProjectsDAO.get_projects().items() if x[1]['type'] == 'mvn_project']
                 last_used_mods = action_modules
 
             for module in action_modules:
