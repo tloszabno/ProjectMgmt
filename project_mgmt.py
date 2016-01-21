@@ -8,6 +8,7 @@ import Config
 import traceback
 import Validation
 
+
 def main():
     log_file_path = Config.logs_file_name_prefix + (str(os.getpid()) if Config.logs_file_append_pid else "")
     print "Starting, logs are in file [%s]\n\n" % log_file_path
@@ -24,8 +25,6 @@ def main():
 
     except Exception as e:
         print "ERROR: " + str(e)
-        traceback.print_exc(file=sys.stdout)
-
 
 
 if __name__ == "__main__":

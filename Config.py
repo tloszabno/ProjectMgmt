@@ -1,6 +1,7 @@
 def get_datetime_prefix():
-	import datetime
-	return datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S')
+    import datetime
+    return datetime.datetime.now().strftime('%Y-%m-%d_%H_%M_%S')
+
 
 logs_file_name_prefix = "/home/tomek/logs/logs_" + get_datetime_prefix() + "_"
 logs_file_append_pid = True
@@ -18,7 +19,8 @@ actions = {
     'mvn': ('m', 'mvn {0} install', ['']),
     'get-new-code': ('gc', 'git reset --hard && git checkout {0} && git fetch && git reset --hard origin/{0}',
                      ['master']),
-    'run': ('r', '{0}', [])
+    'run': ('r', '{0}', []),
+    'deploy-core-full': ('dcf', '{0} undeploy && {0} stop && {0} clean && {0} deploy', [])
 }
 
 continue_on_fail = False

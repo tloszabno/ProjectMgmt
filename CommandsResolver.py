@@ -1,5 +1,7 @@
 import Config
 import re
+import traceback
+import sys
 
 def resolve_final_bash_command(command):
     try:
@@ -16,6 +18,9 @@ def resolve_final_bash_command(command):
             return cmd.rstrip()
 
         return (cmd + " " + " ".join(command.arguments)).rstrip()
-    except:
+    except KeyError:
         msg = "Action [%s] has no definition" % command.action
+        raise Exception(msg)
+    except IndexError:
+        msg = "Action [%s] has been probably invoked on mvn project instead of script" % command.action
         raise Exception(msg)
