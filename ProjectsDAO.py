@@ -1,6 +1,7 @@
 import json
 import Config
 import ProjectAutoDetector
+import re
 
 
 def get_projects(db_path=Config.projects_db_path):
@@ -47,3 +48,9 @@ def print_available_projects(db_path=Config.projects_db_path):
 def autodetect_and_save_projects(folder_to_scan, db_path=Config.projects_db_path):
     detected = ProjectAutoDetector.scan_folder(folder_to_scan)
     save_projects(detected, db_path=db_path)
+
+
+def search_matching_projects(search_key, db_path=Config.projects_db_path):
+    projects = get_projects(db_path)
+    pattern = re.compile(search_key, re.IGNORECASE)
+    return [(x, projects[x]['path'], projects[x]['type']) for x in projects.keys() if pattern.match(x)]

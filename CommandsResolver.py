@@ -12,7 +12,7 @@ def resolve_final_bash_command(command):
             #TODO: optimize
             if len(command.arguments) == 0:
                 #use defualts
-                cmd = cmd.format(*Config.actions[command.action][-1])
+                cmd = cmd.format(*Config.actions[command.action][2])
             else:
                 cmd = cmd.format(*command.arguments)
             return cmd.rstrip()
