@@ -1,6 +1,5 @@
 import argparse
 import Config
-import argcomplete
 import BuildInFunctionRunner
 from common import Action
 from common import CustomAction
@@ -10,7 +9,6 @@ import ProjectsDAO
 class ActionsParser(object):
     def __init__(self):
         self.arg_parser = argparse.ArgumentParser()
-        argcomplete.autocomplete(self.arg_parser)
         self.__configure_parser__()
         self.parsed = None
 

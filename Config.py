@@ -1,9 +1,11 @@
 import ConfigUtils
 
-logs_file_name_prefix = "/home/tomek/logs/logs_" + ConfigUtils.get_datetime_prefix() + "_"
-logs_file_append_pid = True
+
 
 projects_db_path = '/home/tomek/workspace/project_db.json'
+
+logs_file_name_prefix = "/home/tomek/logs/logs_" + ConfigUtils.get_datetime_prefix() + "_"
+logs_file_append_pid = True
 
 # autoscan
 autoscan_server_runnable_files = ['app_server.sh', 'standalone.sh']
@@ -22,7 +24,8 @@ actions = {
                        ['master']),
 
     'run': ('r', '{0}', []),
-    'deploy-core-full': ('dcf', '{0} undeploy && {0} stop && {0} clean && {0} deploy', []),
+    'deploy-full': ('dep', '{0} undeploy && {0} stop && {0} clean && {0} deploy', []),
+    'deploy-full-debug': ('depd', '{0} undeploy && {0} stop && {0} clean && DEBUG=1 {0} deploy', [])
 
 }
 

@@ -69,15 +69,5 @@ def __resolve_project_key__(mvn_project_path, current_state):
 
 
 def __resolve_server_key__(server_path, current_state):
-    potential_name = os.path.basename(server_path)
+    return raw_input("Provide name for server in path %s >" % server_path)
 
-    if potential_name in current_state.keys():
-        conflicted_path = current_state[potential_name]
-        del current_state[potential_name]
-
-        print "During the scan found server with same key as project added. So please provide keys for both servers:"
-        conflicted_server_key = raw_input("Provide name for server in path %s >" % conflicted_path)
-        current_state[conflicted_server_key] = conflicted_path
-        potential_name = raw_input("Provide name for server in path %s >" % server_path)
-
-    return potential_name
