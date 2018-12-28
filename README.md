@@ -48,7 +48,19 @@ Action can be applied multiple times for every projects combinations. When only 
 ```
 Will invoke ```git reset --hard && git checkout master && git fetch && git reset --hard origin/master``` and ```mvn clean install``` command in app folder.
 
-TO be continued....
-
-
  When action has placeholed for argument ({0},{1}..) they can be passed.
+
+
+### Why this is helpful for me? - real word example
+
+```
+./projectmgmt -rh util-parent -cb util-parent @-DskipTests @-pl @util-web-controllers -rh core-2.1 -cb core @-DskipTests @-pl @core-dependencies @-pl @core-war @-pl @core-ear  -depd core-server
+```
+This command will:
+* reset util-parent multimodule to master
+* build only util-web-controllers from util-parent
+* reset core lib to core-2.1 branch
+* build core libs: dependencies, war, ear without test
+* deploy artifact on core server (jboss)
+
+thats all while I drink coffee ;)
